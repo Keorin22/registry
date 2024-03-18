@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 
 interface FormValues {
   selection: string;
+  examination: string;
   date: Date | null;
 }
 
@@ -13,6 +14,7 @@ const options = ['Option 1', 'Option 2', 'Option 3'];
 export const MyForm: React.FC = () => {
   const [formValues, setFormValues] = useState<FormValues>({
     selection: '',
+    examination: '',
     date: null,
   });
 
@@ -25,6 +27,12 @@ export const MyForm: React.FC = () => {
     });
   };
 
+  const handleExaminationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormValues({
+      ...formValues,
+      examination: event.target.value,
+    });
+  };
   const handleDateChange = (date: Date | null) => {
     setFormValues({
       ...formValues,
@@ -34,8 +42,8 @@ export const MyForm: React.FC = () => {
 
   const handleAddToList = () => {
     const formattedDate = formValues.date ? format(formValues.date, 'dd.MM.yyyy HH:mm') : '';
-    setList([...list, `${formValues.selection} - ${formattedDate}`]);
-    setFormValues({ selection: '', date: null });
+    setList([...list, `${formValues.selection}  ${formValues.examination} - ${formattedDate}`]);
+    setFormValues({ selection: '', examination: '', date: null });
   };
 
   return (
@@ -53,6 +61,12 @@ export const MyForm: React.FC = () => {
           </select>
         </label>
       </div>
+      <input 
+      style={{ display: 'inline-block', marginLeft: '10px' }}
+      onChange={handleExaminationChange}
+      value={formValues.examination}
+      >
+      </input>
       <div style={{ display: 'inline-block', marginLeft: '10px' }}>
         <label>
           Date and Time:
